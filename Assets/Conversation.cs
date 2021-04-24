@@ -18,6 +18,7 @@ public class Conversation : MonoBehaviour
     private Button Q1;
     private Button Q2;
     private Button Q3;
+    private bool EatNextClick;
 
     public static void StartConversation(Action<ConversationFlow> script)
     {
@@ -84,6 +85,11 @@ public class Conversation : MonoBehaviour
 
     public void Update()
     {
+        if (EatNextClick)
+        {
+            EatNextClick = false;
+            Started = false;
+        }
         if (ConversationIndex >= 0 && Input.GetMouseButtonDown(0))
         {
             if (Q1.transform.gameObject.activeSelf ||
@@ -116,7 +122,8 @@ public class Conversation : MonoBehaviour
         Q3.transform.gameObject.SetActive(true);
         CanvasGroup.alpha = 0.0f;
         ConversationIndex = -1;
-        Started = false;
+        Started = true;
+        EatNextClick = true;
     }
 }
 
@@ -124,7 +131,12 @@ public class ConversationFlow
 {
     public List<ConversationItem> Items = new List<ConversationItem>();
 
-    public void Add(string who, string what) => Items.Add(new ConversationItem(who, what));
+    public ConversationItem Add(string who, string what)
+    {
+        var result = new ConversationItem(who, what);
+        Items.Add(result);
+        return result;
+    }
 }
 
 public class ConversationItem
