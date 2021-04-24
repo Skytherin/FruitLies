@@ -8,8 +8,8 @@ public class Mom : MonoBehaviour
         {
             var mc = GameObject.Find("MainCharacter").GetComponent<MainCharacter>();
             var momMark = GameObject.Find("MomMark");
-            mc.OverridePosition = momMark.transform.position;
-            mc.OnArrival = () => StartCriticalMomConversation();
+            mc.SetOverrideDestination(momMark.transform.position)
+                .Then(_ => StartCriticalMomConversation());
         }
     }
 

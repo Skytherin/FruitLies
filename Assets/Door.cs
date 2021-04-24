@@ -13,8 +13,8 @@ public class Door : MonoBehaviour
 
         var mc = GameObject.Find("MainCharacter").GetComponent<MainCharacter>();
         var mark = GameObject.Find("DoorMark");
-        mc.OverridePosition = mark.transform.position;
-        mc.OnArrival = () =>
+        mc.SetOverrideDestination(mark.transform.position)
+            .Then(_ =>
         {
             if (!HasTalkedToMom)
             {
@@ -24,7 +24,7 @@ public class Door : MonoBehaviour
             {
                 StartCoroutine(DadComesMarchingIn());
             }
-        };
+        });
     }
 
     private IEnumerator DadComesMarchingIn()
