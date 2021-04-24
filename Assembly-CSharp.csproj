@@ -80,6 +80,9 @@
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweens\IEnumeratorTween.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweens\ITween.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweens\TimedTween.cs" />
+    <Compile Include="Assets\Utils\EnumerableExtensions.cs" />
+    <Compile Include="Assets\Utils\WhoHasMouseControl.cs" />
+    <Compile Include="Assets\DeathCanvas.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

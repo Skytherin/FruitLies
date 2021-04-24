@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using Assets.Utils;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class DeathCanvas : MonoBehaviour
+{
+    public static DeathCanvas Instance;
+
+    void Start()
+    {
+        Instance = this;
+        gameObject.SetActive(false);
+    }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+        Global.WhoHasMouseControl = Mouser.Death;
+    }
+
+    public void PlayAgain()
+    {
+        if (Global.WhoHasMouseControl != Mouser.Death) return;
+
+        SceneManager.LoadScene("InsideTheHouse");
+    }
+
+    public void Quit()
+    {
+        if (Global.WhoHasMouseControl != Mouser.Death) return;
+
+        Application.Quit();
+    }
+}

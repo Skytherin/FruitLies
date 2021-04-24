@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Assets.ProceduralAnimationLibrary.Tweeners;
+using Assets.Utils;
+using Assets.Utils.ProceduralAnimationLibrary.Tweeners;
 using UnityEngine;
 
 public class SceneController : MonoBehaviour
@@ -7,15 +10,23 @@ public class SceneController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var conversationCanvas = GameObject.Find("ConversationCanvas");
-        var canvasGroup = conversationCanvas.GetComponent<CanvasGroup>();
-        canvasGroup.alpha = 0.0f;
-        StartFirstConversation();
+        foreach (var canvasName in new[] {"ConversationCanvas"})
+        {
+            var canvas = GameObject.Find(canvasName);
+            var canvasGroup = canvas.GetComponent<CanvasGroup>();
+            canvasGroup.alpha = 0.0f;
+        }
+
+        Global.WhoHasMouseControl = Mouser.General;
+
+        this.BeginSerial()
+            .Wait(0.01f)
+            .Start(() => StartFirstConversation());
     }
 
     private void StartFirstConversation()
     {
-        Conversation.StartConversation("", c =>
+        Conversation.Instance.StartConversation("", c =>
         {
             c.Add("Cass", "Hey, The Apple Sauce Jam Band is playing tonight. You want to go see them?");
             c.Add("Alice", "Yeah, they're totally boppers!... But my dad will never let them go.");

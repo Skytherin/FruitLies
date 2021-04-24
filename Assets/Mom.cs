@@ -1,25 +1,25 @@
+using Assets.Utils;
 using UnityEngine;
 
 public class Mom : MonoBehaviour
 {
     void OnMouseDown()
     {
-        if (!Conversation.Started)
-        {
-            var mc = GameObject.Find("MainCharacter").GetComponent<MainCharacter>();
-            var momMark = GameObject.Find("MomMark");
-            mc.SetOverrideDestination(momMark.transform.position)
-                .Then(_ => StartCriticalMomConversation());
-        }
+        if (Global.WhoHasMouseControl != Mouser.General) return;
+
+        var mc = GameObject.Find("MainCharacter").GetComponent<MainCharacter>();
+        var momMark = GameObject.Find("MomMark");
+        mc.SetOverrideDestination(momMark.transform.position)
+            .Then(_ => StartCriticalMomConversation());
     }
 
     void StartCriticalMomConversation()
     {
-        if (!Door.HasTalkedToMom)
+        if (Door.DoorState == DoorState.HasNotTalkedToMom)
         {
-            Door.HasTalkedToMom = true;
+            Door.DoorState = DoorState.HasNotTalkedToDad;
 
-            Conversation.StartConversation("Mom", c =>
+            Conversation.Instance.StartConversation("Mom", c =>
             {
                 c.Add("Alice", "Hey mom, can I go out tonight?");
                 c.Add("Mom", "Where are you going, my little snack carrot?");
@@ -30,6 +30,13 @@ public class Mom : MonoBehaviour
                 item.Answers.Add("I'm going to walk Barkies the dog.");
 
                 c.Add("Mom", "That's nice dear, have fun.");
+            });
+        }
+        else
+        {
+            Conversation.Instance.StartConversation("Mom", c =>
+            {
+                c.Add("Mom", "Have a nice time, dear.");
             });
         }
     }

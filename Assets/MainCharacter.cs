@@ -1,4 +1,5 @@
 using Assets.ProceduralAnimationLibrary.Tweeners;
+using Assets.Utils;
 using Assets.Utils.ProceduralAnimationLibrary.Tweeners;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ public class MainCharacter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Conversation.Started) return;
+        if (Global.WhoHasMouseControl != Mouser.General) return;
 
         if (Input.GetMouseButtonDown(0) && !OverridePosition)
         {

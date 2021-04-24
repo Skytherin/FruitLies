@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -14,11 +16,18 @@ public class CallbackThing<T>
     {
         Callback = callback;
     }
+
+    public void Then(Action callback)
+    {
+        Callback = _ => callback();
+    }
 }
 
 public class Conversation : MonoBehaviour
 {
-    public static bool Started { get; private set; } = false;
+    public static Conversation Instance;
+
+    private bool Started = false;
     private ConversationFlow ConversationFlow = new ConversationFlow();
     private int ConversationIndex = -1;
     private GameObject ConversationCanvas;
@@ -28,21 +37,15 @@ public class Conversation : MonoBehaviour
     private Button Q1;
     private Button Q2;
     private Button Q3;
-    private bool EatNextClick;
     private CallbackThing<ConversationFlow> Callback;
 
-    public static readonly Dictionary<string, ConversationFlow> RecordOfConversation =
+    public readonly Dictionary<string, ConversationFlow> RecordOfConversation =
         new Dictionary<string, ConversationFlow>();
 
-    public static CallbackThing<ConversationFlow> StartConversation(string nameOfConversation, Action<ConversationFlow> script)
-    {
-        return GameObject.Find("ConversationController").GetComponent<Conversation>().StartConversationFromScript(nameOfConversation, script);
-    }
-
-    private CallbackThing<ConversationFlow> StartConversationFromScript(string nameOfConversation, Action<ConversationFlow> script)
+    public CallbackThing<ConversationFlow> StartConversation(string nameOfConversation, Action<ConversationFlow> script)
     {
         Assert.IsFalse(RecordOfConversation.ContainsKey(nameOfConversation), "Same conversation twice!");
-        Assert.IsFalse(Started && !EatNextClick, "Attempted to start two conversations in a row!");
+        Assert.IsFalse(Started, "Attempted to start two conversations in a row!");
         ConversationFlow = new ConversationFlow();
         script(ConversationFlow);
         if (!string.IsNullOrWhiteSpace(nameOfConversation))
@@ -53,24 +56,21 @@ public class Conversation : MonoBehaviour
         return StartConversationInternal();
     }
 
-    private void Initialize()
+    void Start()
     {
-        if (ConversationCanvas == null)
-        {
-            ConversationCanvas = GameObject.Find("ConversationCanvas");
-            CanvasGroup = ConversationCanvas.GetComponent<CanvasGroup>();
-            Who = ConversationCanvas.transform.Find("Who").GetComponent<TextMeshProUGUI>();
-            What = ConversationCanvas.transform.Find("What").GetComponent<TextMeshProUGUI>();
-            Q1 = ConversationCanvas.transform.Find("Q1").GetComponent<Button>();
-            Q2 = ConversationCanvas.transform.Find("Q2").GetComponent<Button>();
-            Q3 = ConversationCanvas.transform.Find("Q3").GetComponent<Button>();
-        }
+        Instance = this;
+        ConversationCanvas = GameObject.Find("ConversationCanvas");
+        CanvasGroup = ConversationCanvas.GetComponent<CanvasGroup>();
+        Who = ConversationCanvas.transform.Find("Who").GetComponent<TextMeshProUGUI>();
+        What = ConversationCanvas.transform.Find("What").GetComponent<TextMeshProUGUI>();
+        Q1 = ConversationCanvas.transform.Find("Q1").GetComponent<Button>();
+        Q2 = ConversationCanvas.transform.Find("Q2").GetComponent<Button>();
+        Q3 = ConversationCanvas.transform.Find("Q3").GetComponent<Button>();
     }
 
     private CallbackThing<ConversationFlow> StartConversationInternal()
     {
-        Initialize();
-        EatNextClick = false;
+        Global.WhoHasMouseControl = Mouser.Cutscene;
         Started = true;
         Q1.transform.gameObject.SetActive(false);
         Q2.transform.gameObject.SetActive(false);
@@ -88,8 +88,10 @@ public class Conversation : MonoBehaviour
         Who.text = item.Who;
         What.text = item.Text;
 
-        foreach (var a in item.Answers.Zip(new[]{ Q1, Q2, Q3 }, (answer, button) => new {answer,button})
-            .Select((it,index) => new { it.answer, it.button, index}))
+        foreach (var a in item.Answers
+            .Select((answer, index) => new {answer, index})
+            .Shuffle()
+            .Zip(new[]{ Q1, Q2, Q3 }, (it, button) => new {it.answer,button, it.index}))
         {
             a.button.transform.gameObject.SetActive(true);
             a.button.GetComponentInChildren<TextMeshProUGUI>().text = a.answer;
@@ -111,11 +113,6 @@ public class Conversation : MonoBehaviour
 
     public void Update()
     {
-        if (EatNextClick)
-        {
-            EatNextClick = false;
-            Started = false;
-        }
         if (ConversationIndex >= 0 && Input.GetMouseButtonDown(0))
         {
             if (Q1.transform.gameObject.activeSelf ||
@@ -143,13 +140,19 @@ public class Conversation : MonoBehaviour
 
     private void LeaveConversation()
     {
+        StartCoroutine(WaitThenExit());
+    }
+
+    private IEnumerator WaitThenExit()
+    {
+        yield return new WaitForFixedUpdate();
         Q1.transform.gameObject.SetActive(true);
         Q2.transform.gameObject.SetActive(true);
         Q3.transform.gameObject.SetActive(true);
         CanvasGroup.alpha = 0.0f;
         ConversationIndex = -1;
-        Started = true;
-        EatNextClick = true;
+        Started = false;
+        Global.WhoHasMouseControl = Mouser.General;
         Callback?.Callback?.Invoke(ConversationFlow);
     }
 }
