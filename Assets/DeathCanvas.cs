@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Assets.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using CanvasGroup = UnityEngine.CanvasGroup;
 
 public class DeathCanvas : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class DeathCanvas : MonoBehaviour
     {
         Instance = this;
         gameObject.SetActive(false);
+        GetComponent<CanvasGroup>().alpha = 1.0f;
     }
 
     public void Show()

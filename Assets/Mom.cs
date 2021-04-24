@@ -34,7 +34,7 @@ public class Mom : MonoBehaviour
         }
         else
         {
-            Conversation.Instance.StartConversation("Mom", c =>
+            Conversation.Instance.StartConversation("", c =>
             {
                 c.Add("Mom", "Have a nice time, dear.");
             });
