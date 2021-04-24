@@ -6,10 +6,20 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
+public class CallbackThing<T>
+{
+    public Action<T> Callback;
+
+    public void Then(Action<T> callback)
+    {
+        Callback = callback;
+    }
+}
+
 public class Conversation : MonoBehaviour
 {
     public static bool Started { get; private set; } = false;
-    private readonly ConversationFlow ConversationFlow = new ConversationFlow();
+    private ConversationFlow ConversationFlow = new ConversationFlow();
     private int ConversationIndex = -1;
     private GameObject ConversationCanvas;
     private CanvasGroup CanvasGroup;
@@ -19,18 +29,28 @@ public class Conversation : MonoBehaviour
     private Button Q2;
     private Button Q3;
     private bool EatNextClick;
+    private CallbackThing<ConversationFlow> Callback;
 
-    public static void StartConversation(Action<ConversationFlow> script)
+    public static readonly Dictionary<string, ConversationFlow> RecordOfConversation =
+        new Dictionary<string, ConversationFlow>();
+
+    public static CallbackThing<ConversationFlow> StartConversation(string nameOfConversation, Action<ConversationFlow> script)
     {
-        GameObject.Find("ConversationController").GetComponent<Conversation>().StartConversationFromScript(script);
+        return GameObject.Find("ConversationController").GetComponent<Conversation>().StartConversationFromScript(nameOfConversation, script);
     }
 
-    private void StartConversationFromScript(Action<ConversationFlow> script)
+    private CallbackThing<ConversationFlow> StartConversationFromScript(string nameOfConversation, Action<ConversationFlow> script)
     {
-        Assert.IsFalse(Started, "Attempted to start two conversations in a row!");
-        ConversationFlow.Items.Clear();
+        Assert.IsFalse(RecordOfConversation.ContainsKey(nameOfConversation), "Same conversation twice!");
+        Assert.IsFalse(Started && !EatNextClick, "Attempted to start two conversations in a row!");
+        ConversationFlow = new ConversationFlow();
         script(ConversationFlow);
-        StartConversationInternal();
+        if (!string.IsNullOrWhiteSpace(nameOfConversation))
+        {
+            RecordOfConversation[nameOfConversation] = ConversationFlow;
+        }
+
+        return StartConversationInternal();
     }
 
     private void Initialize()
@@ -47,9 +67,10 @@ public class Conversation : MonoBehaviour
         }
     }
 
-    private void StartConversationInternal()
+    private CallbackThing<ConversationFlow> StartConversationInternal()
     {
         Initialize();
+        EatNextClick = false;
         Started = true;
         Q1.transform.gameObject.SetActive(false);
         Q2.transform.gameObject.SetActive(false);
@@ -57,6 +78,8 @@ public class Conversation : MonoBehaviour
         CanvasGroup.alpha = 1.0f;
         ConversationIndex = 0;
         ShowCurrentIndex();
+        Callback = new CallbackThing<ConversationFlow>();
+        return Callback;
     }
 
     private void ShowCurrentIndex()
@@ -77,9 +100,12 @@ public class Conversation : MonoBehaviour
 
     private void Answer(int which)
     {
-        Q1.transform.gameObject.SetActive(false);
-        Q2.transform.gameObject.SetActive(false);
-        Q3.transform.gameObject.SetActive(false);
+        ConversationFlow.Answers[ConversationIndex] = which;
+        foreach (var button in new[] {Q1, Q2, Q3})
+        {
+            button.transform.gameObject.SetActive(false);
+            button.onClick = new Button.ButtonClickedEvent();
+        }
         AdvanceConversation();
     }
 
@@ -124,12 +150,14 @@ public class Conversation : MonoBehaviour
         ConversationIndex = -1;
         Started = true;
         EatNextClick = true;
+        Callback?.Callback?.Invoke(ConversationFlow);
     }
 }
 
 public class ConversationFlow
 {
-    public List<ConversationItem> Items = new List<ConversationItem>();
+    public readonly List<ConversationItem> Items = new List<ConversationItem>();
+    public readonly Dictionary<int, int> Answers = new Dictionary<int, int>();
 
     public ConversationItem Add(string who, string what)
     {

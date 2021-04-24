@@ -15,18 +15,22 @@ public class Mom : MonoBehaviour
 
     void StartCriticalMomConversation()
     {
-        Door.HasTalkedToMom = true;
-        Conversation.StartConversation(c =>
+        if (!Door.HasTalkedToMom)
         {
-            c.Add("Alice", "Hey mom, can I go out tonight?");
-            c.Add("Mom", "Where are you going, my little snack carrot?");
+            Door.HasTalkedToMom = true;
 
-            var item = c.Add("Alice", "");
-            item.Answers.Add("Over Cass's to study.");
-            item.Answers.Add("Over Cass's to listen the new Kale and Fresh Veggies album.");
-            item.Answers.Add("I'm going to walk Barkies the dog.");
+            Conversation.StartConversation("Mom", c =>
+            {
+                c.Add("Alice", "Hey mom, can I go out tonight?");
+                c.Add("Mom", "Where are you going, my little snack carrot?");
 
-            c.Add("Mom", "That's nice dear, have fun.");
-        });
+                var item = c.Add("Alice", "");
+                item.Answers.Add("Over Cass's to study.");
+                item.Answers.Add("Over Cass's to listen the new Kale and Fresh Veggies album.");
+                item.Answers.Add("I'm going to walk Barkies the dog.");
+
+                c.Add("Mom", "That's nice dear, have fun.");
+            });
+        }
     }
 }

@@ -15,7 +15,7 @@ public class SceneController : MonoBehaviour
 
     private void StartFirstConversation()
     {
-        Conversation.StartConversation(c =>
+        Conversation.StartConversation("", c =>
         {
             c.Add("Cass", "Hey, The Apple Sauce Jam Band is playing tonight. You want to go see them?");
             c.Add("Alice", "Yeah, they're totally boppers!... But my dad will never let them go.");
@@ -25,11 +25,5 @@ public class SceneController : MonoBehaviour
             c.Add("Cass", "Don't be a wet noodle, Alice.");
             c.Add("Alice", "I'm not a wet noodle, I'm a fresh banana!");
         });
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
