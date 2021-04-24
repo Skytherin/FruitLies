@@ -22,6 +22,18 @@ public class SceneController : MonoBehaviour
         this.BeginSerial()
             .Wait(0.01f)
             .Start(() => StartFirstConversation());
+
+        foreach (var item in new[]
+        {
+            new {c = "MainCharacter", m = "MCStartMark"},
+            new {c = "Dad", m = "DadStartMark"},
+            new {c = "Mom", m = "MomStartMark"}
+        })
+        {
+            var go = GameObject.Find(item.c);
+            var mark = GameObject.Find(item.m);
+            go.transform.position = mark.transform.position;
+        }
     }
 
     private void StartFirstConversation()
