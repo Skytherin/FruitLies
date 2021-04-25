@@ -25,7 +25,7 @@ public class Door : MonoBehaviour
             switch (DoorState)
             {
                 case DoorState.HasNotTalkedToMom:
-                    Conversation.Instance.StartConversation(c => { c.Add(Constants.Names.MC, "I can't leave without telling mom."); });
+                    Conversation.Instance.StartConversation(c => { c.Add(Constants.Names.MC, "I can't leave without telling mom.", BoxType.Left); });
                     break;
                 case DoorState.HasNotTalkedToDad:
                 {
@@ -68,7 +68,7 @@ public class Door : MonoBehaviour
 
         Conversation.Instance.StartConversation(c =>
         {
-            c.Add("Dad", "Where do you think you are going, little lady?");
+            c.Add("Dad", "Where do you think you are going, little lady?", BoxType.Left);
 
             var q = c.Add(Constants.Names.MC, "", BoxType.QuestionLeft);
             q.Answers.AddRange(possibleAnswers);
@@ -79,10 +79,10 @@ public class Door : MonoBehaviour
             {
                 Conversation.Instance.StartConversation(c =>
                 {
-                    c.Add("Dad", "You're not leaving this house.");
-                    c.Add("Mom", "But hubby, we haven't had a night alone in weeks.");
-                    c.Add("Dad", "...");
-                    c.Add("Dad", "Have fun, Alice.");
+                    c.Add("Dad", "You're not leaving this house.", BoxType.Left);
+                    c.Add("Mom", "But hubby, we haven't had a night alone in weeks.", BoxType.Left);
+                    c.Add("Dad", "...", BoxType.Left);
+                    c.Add("Dad", "Have fun, Alice.", BoxType.Left);
                 })
                 .Then(_ =>
                 {
@@ -102,8 +102,8 @@ public class Door : MonoBehaviour
             {
                 Conversation.Instance.StartConversation(c =>
                 {
-                    c.Add("Mom", "That's not what you told me.");
-                    c.Add("Dad", "Go to your room!!!");
+                    c.Add("Mom", "That's not what you told me.", BoxType.Left);
+                    c.Add("Dad", "Go to your room!!!", BoxType.Left);
                 })
                 .Then(() =>
                 {

@@ -37,12 +37,12 @@ public class OutsideTheClubSceneController : MonoBehaviour
     {
         Conversation.Instance.StartConversation(c =>
         {
-            c.Add(Constants.Names.BF, "Oh no, that bouncer won't let us in!");
-            c.Add(Constants.Names.MC, "No worries, I'll handle him.");
-            c.Add(Constants.Names.BF, "What are you gonna do?");
-            c.Add(Constants.Names.MC, "Lie our way in, of course.");
-            c.Add(Constants.Names.BF, "But you're a terrible liar!");
-            c.Add(Constants.Names.MC, "I lied to mom and dad. Everything is permitted now.");
+            c.Add(Constants.Names.BF, "Oh no, that bouncer won't let us in!", BoxType.Left);
+            c.Add(Constants.Names.MC, "No worries, I'll handle him.", BoxType.Left);
+            c.Add(Constants.Names.BF, "What are you gonna do?", BoxType.Left);
+            c.Add(Constants.Names.MC, "Lie our way in, of course.", BoxType.Left);
+            c.Add(Constants.Names.BF, "But you're a terrible liar!", BoxType.Left);
+            c.Add(Constants.Names.MC, "I lied to mom and dad. Everything is permitted now.", BoxType.Left);
         });
     }
 }

@@ -166,7 +166,7 @@ public class ConversationFlow
     public readonly List<ConversationItem> Items = new List<ConversationItem>();
     public readonly List<int> Answers = new List<int>();
 
-    public ConversationItem Add(string who, string what, BoxType boxType = BoxType.Left)
+    public ConversationItem Add(string who, string what, BoxType boxType)
     {
         var result = new ConversationItem(who, what, boxType);
         Items.Add(result);

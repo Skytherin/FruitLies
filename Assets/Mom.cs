@@ -32,19 +32,19 @@ public class Mom : MonoBehaviour
 
             Conversation.Instance.StartConversation(c =>
             {
-                c.Add(Constants.Names.MC, "Hey mom, can I go out tonight?");
-                c.Add("Mom", "Where are you going, my little snack carrot?");
+                c.Add(Constants.Names.MC, "Hey mom, can I go out tonight?", BoxType.Left);
+                c.Add("Mom", "Where are you going, my little snack carrot?", BoxType.Left);
 
                 c.Add(Constants.Names.MC, "", BoxType.QuestionRight).Answers.AddRange(PossibleAnswers);
 
-                c.Add("Mom", "That's nice dear, have fun.");
+                c.Add("Mom", "That's nice dear, have fun.", BoxType.Left);
             }).Then(c => AnswerToMom = c.Single());
         }
         else
         {
             Conversation.Instance.StartConversation(c =>
             {
-                c.Add("Mom", "Have a nice time, dear.");
+                c.Add("Mom", "Have a nice time, dear.", BoxType.Left);
             });
         }
     }
