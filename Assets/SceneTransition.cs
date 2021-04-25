@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class SceneTransition : MonoBehaviour
 {
     public static SceneTransition Instance;
+    public const float FadeTime = 2.0f;
 
     void Start()
     {
@@ -17,7 +18,7 @@ public class SceneTransition : MonoBehaviour
         canvasGroup.alpha = 1.0f;
 
         this.BeginSerial()
-            .Then(0.5f, ratio => canvasGroup.alpha = 1.0f - ratio)
+            .Then(FadeTime, ratio => canvasGroup.alpha = 1.0f - ratio)
             .Then(() => gameObject.SetActive(false))
             .Start();
     }
@@ -27,7 +28,7 @@ public class SceneTransition : MonoBehaviour
         var canvasGroup = GetComponent<CanvasGroup>();
         gameObject.SetActive(true);
         this.BeginSerial()
-            .Then(0.5f, ratio => canvasGroup.alpha = ratio)
+            .Then(FadeTime, ratio => canvasGroup.alpha = ratio)
             .Then(() => SceneManager.LoadScene(nextScene))
             .Start();
     }

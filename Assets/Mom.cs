@@ -21,10 +21,10 @@ public class Mom : MonoBehaviour
 
             Conversation.Instance.StartConversation("Mom", c =>
             {
-                c.Add("Alice", "Hey mom, can I go out tonight?");
+                c.Add(Constants.Names.MC, "Hey mom, can I go out tonight?");
                 c.Add("Mom", "Where are you going, my little snack carrot?");
 
-                var item = c.Add("Alice", "");
+                var item = c.Add(Constants.Names.MC, "");
                 item.Answers.Add("Over Cass's to study.");
                 item.Answers.Add("Over Cass's to listen the new Kale and Fresh Veggies album.");
                 item.Answers.Add("I'm going to walk Barkies the dog.");

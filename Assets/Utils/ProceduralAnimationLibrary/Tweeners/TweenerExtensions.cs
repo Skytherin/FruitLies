@@ -55,6 +55,12 @@ namespace Assets.ProceduralAnimationLibrary.Tweeners
             return self.Append(new ConditionalWaitTween(condition));
         }
 
+        public static T MoveTo<T>(this T self, GameObject subject, GameObject targetPosition, float duration)
+            where T : ITweener
+        {
+            return self.MoveTo(subject, targetPosition.transform.position, duration);
+        }
+
         public static T MoveTo<T>(this T self, GameObject subject, Vector3 targetPosition, float duration)
             where T : ITweener
         {

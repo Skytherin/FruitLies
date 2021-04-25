@@ -52,18 +52,8 @@ namespace Assets.Utils.ProceduralAnimationLibrary.Tweeners
 
             while (enumerators.Any())
             {
-                var copy = enumerators.ToList();
-                enumerators = new List<IEnumerator>();
-                var any = false;
-                foreach (var e in copy)
-                {
-                    if (e.MoveNext())
-                    {
-                        enumerators.Add(e);
-                        any = true;
-                    }
-                }
-                if (any) yield return new WaitForEndOfFrame();
+                enumerators = enumerators.Where(e => e.MoveNext()).ToList();
+                yield return new WaitForEndOfFrame();
             }
         }
 

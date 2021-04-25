@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Assets;
 using Assets.ProceduralAnimationLibrary.Tweeners;
 using Assets.Utils;
 using Assets.Utils.ProceduralAnimationLibrary.Tweeners;
@@ -25,27 +26,36 @@ public class Door : MonoBehaviour
             switch (DoorState)
             {
                 case DoorState.HasNotTalkedToMom:
-                    Conversation.Instance.StartConversation("", c => { c.Add("Alice", "I can't leave without telling mom."); });
+                    Conversation.Instance.StartConversation("", c => { c.Add(Constants.Names.MC, "I can't leave without telling mom."); });
                     break;
                 case DoorState.HasNotTalkedToDad:
                 {
-                    var mc = GameObject.Find("MainCharacter").GetComponent<MainCharacter>();
+                    var mc = GameObject.Find("MainCharacter");
                     var dad = GameObject.Find("Dad");
                     var dadSpawnPoint = GameObject.Find("DadSpawnPoint");
                     var dadMark = GameObject.Find("DadMark");
                     var doorMark = GameObject.Find("DoorMark");
-                    dad.transform.position = dadSpawnPoint.transform.position;
+                    dad.TeleportTo(dadSpawnPoint);
                     this.BeginSerial()
                         .MoveTo(dad, doorMark.transform.position, 1.0f)
                         .Start();
 
                     this.BeginSerial()
-                        .MoveTo(mc.gameObject, dadMark.transform.position, 1.0f)
+                        .MoveTo(mc, dadMark.transform.position, 1.0f)
                         .Start(() => DadConversation());
                     break;
                 }
                 case DoorState.AllowedToLeave:
-                    throw new NotImplementedException();
+                {
+                    var mc = GameObject.Find("MainCharacter");
+                    var dadSpawnPoint = GameObject.Find("DadSpawnPoint");
+                    
+                    this.BeginSerial()
+                        .MoveTo(mc, dadSpawnPoint.transform.position, 1.0f)
+                        .Start(() => SceneTransition.Instance.TransitionTo("OutsideTheClub"));
+                    
+                    break;
+                }
             }
         });
     }
@@ -61,7 +71,7 @@ public class Door : MonoBehaviour
         {
             c.Add("Dad", "Where do you think you are going, little lady?");
 
-            var q = c.Add("Alice", "");
+            var q = c.Add(Constants.Names.MC, "");
             q.Answers.AddRange(possibleAnswers);
         })
         .Then(record =>
@@ -81,10 +91,10 @@ public class Door : MonoBehaviour
                     var mom = GameObject.Find("Mom");
                     var mark = GameObject.Find("OffscreenLeftMark");
                     this.BeginSerial()
-                        .MoveTo(dad, mark.transform.position, 2.0f)
+                        .MoveTo(dad, mark.transform.position, 1.0f)
                         .Start();
                     this.BeginSerial()
-                        .MoveTo(mom, mark.transform.position, 2.0f)
+                        .MoveTo(mom, mark.transform.position, 1.0f)
                         .Start();
                     DoorState = DoorState.AllowedToLeave;
                 });

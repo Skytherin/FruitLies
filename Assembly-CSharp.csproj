@@ -68,7 +68,7 @@
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\JCurve.cs" />
     <Compile Include="Assets\Mom.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweeners\StartableTweener.cs" />
-    <Compile Include="Assets\SceneController.cs" />
+    <Compile Include="Assets\HomeSceneController.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Cutscenes\VerbLoader.cs" />
     <Compile Include="Assets\Conversation.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweens\IEnumeratorTween.cs" />
@@ -84,6 +84,8 @@
     <Compile Include="Assets\Utils\GameObjectExtensions.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Cutscenes\CutsceneVerbAttribute.cs" />
     <Compile Include="Assets\SceneTransition.cs" />
+    <Compile Include="Assets\OutsideTheClubSceneController.cs" />
+    <Compile Include="Assets\Utils\Constants.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

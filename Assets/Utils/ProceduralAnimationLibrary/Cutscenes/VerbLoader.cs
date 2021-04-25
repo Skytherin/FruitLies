@@ -90,9 +90,8 @@ namespace Assets.Utils.ProceduralAnimationLibrary.Cutscenes
                     throw new NotImplementedException("DirectObject should be GameObject or String");
                 }
 
-                Func<GameObject, object, Dictionary<string, string>, ITween> action = (subject, directObject, parameters) =>
+                ITween Action(GameObject subject, object directObject, Dictionary<string, string> parameters)
                 {
-
                     var actuals = new List<object?>();
 
                     if (!noSubject)
@@ -123,17 +122,18 @@ namespace Assets.Utils.ProceduralAnimationLibrary.Cutscenes
                                     continue;
                                 }
                             }
+
                             throw new NotImplementedException();
                         }
 
                         actuals.Add(null);
                     }
 
-                    return (ITween)verb.Method.Invoke(null, actuals.ToArray());
-                };
+                    return (ITween) verb.Method.Invoke(null, actuals.ToArray());
+                }
 
                 var name = verb.Action.Name ?? verb.Method.Name;
-                Verbs[name] = new VerbDetails(action, doIsString, noSubject);
+                Verbs[name] = new VerbDetails(Action, doIsString, noSubject);
             }
         }
     }

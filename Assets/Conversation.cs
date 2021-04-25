@@ -66,6 +66,7 @@ public class Conversation : MonoBehaviour
         Q1 = ConversationCanvas.transform.Find("Q1").GetComponent<Button>();
         Q2 = ConversationCanvas.transform.Find("Q2").GetComponent<Button>();
         Q3 = ConversationCanvas.transform.Find("Q3").GetComponent<Button>();
+        CanvasGroup.alpha = 0.0f;
     }
 
     private CallbackThing<ConversationFlow> StartConversationInternal()

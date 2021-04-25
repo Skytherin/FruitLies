@@ -8,5 +8,10 @@ namespace Assets.Utils.ProceduralAnimationLibrary.Tweeners
         {
             return new StartableTweener(new SerialTweener(), gameObject);
         }
+
+        public static StartableTweener BeginParallel(this MonoBehaviour gameObject)
+        {
+            return new StartableTweener(new ParallelTweener(), gameObject);
+        }
     }
 }
