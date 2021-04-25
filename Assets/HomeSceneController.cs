@@ -1,5 +1,4 @@
 using Assets;
-using Assets.ProceduralAnimationLibrary.Tweeners;
 using Assets.Utils;
 using Assets.Utils.ProceduralAnimationLibrary.Tweeners;
 using UnityEngine;
@@ -30,7 +29,7 @@ public class HomeSceneController : MonoBehaviour
     {
         Conversation.Instance.StartConversation("", c =>
         {
-            c.Add(Constants.Names.BF, "Hey, The Apple Sauce Jam Band is playing tonight. You want to go see them?");
+            c.Add(Constants.Names.BF, "Hey, The Orange Peels are playing tonight at Juicy Lucy's. Wanna go?");
             c.Add(Constants.Names.MC, "Yeah, they're totally boppers!... But my dad will never let them go.");
             c.Add(Constants.Names.BF, "Tell them your coming over my place to study.");
             c.Add(Constants.Names.MC,

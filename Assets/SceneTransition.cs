@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Assets.ProceduralAnimationLibrary.Tweeners;
 using Assets.Utils.ProceduralAnimationLibrary.Tweeners;
 using UnityEngine;
 using UnityEngine.SceneManagement;

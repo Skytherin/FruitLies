@@ -86,6 +86,9 @@
     <Compile Include="Assets\Utils\GameObjectExtensions.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Cutscenes\CutsceneVerbAttribute.cs" />
     <Compile Include="Assets\SceneTransition.cs" />
+    <Compile Include="Assets\Bouncer.cs" />
+    <Compile Include="Assets\JuicyLucyEntrance.cs" />
+    <Compile Include="Assets\Bartender.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

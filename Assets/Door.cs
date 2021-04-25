@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using Assets;
-using Assets.ProceduralAnimationLibrary.Tweeners;
 using Assets.Utils;
 using Assets.Utils.ProceduralAnimationLibrary.Tweeners;
 using UnityEngine;
@@ -21,7 +20,7 @@ public class Door : MonoBehaviour
 
         var mc = GameObject.Find("MainCharacter").GetComponent<MainCharacter>();
         var mark = GameObject.Find("DoorMark");
-        mc.SetOverrideDestination(mark.transform.position).Then(_ =>
+        mc.SetDestination(mark.transform.position).Then(_ =>
         {
             switch (DoorState)
             {

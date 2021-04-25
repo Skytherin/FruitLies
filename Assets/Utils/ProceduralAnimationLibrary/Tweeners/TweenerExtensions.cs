@@ -1,12 +1,9 @@
 #nullable enable
 using System;
-using Assets.Utils.ProceduralAnimationLibrary;
-using Assets.Utils.ProceduralAnimationLibrary.Tweeners;
 using Assets.Utils.ProceduralAnimationLibrary.Tweens;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Assets.ProceduralAnimationLibrary.Tweeners
+namespace Assets.Utils.ProceduralAnimationLibrary.Tweeners
 {
     public static class TweenerExtensions
     {

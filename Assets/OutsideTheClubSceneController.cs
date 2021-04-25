@@ -1,5 +1,4 @@
 using Assets;
-using Assets.ProceduralAnimationLibrary.Tweeners;
 using Assets.Utils;
 using Assets.Utils.ProceduralAnimationLibrary.Tweeners;
 using UnityEngine;

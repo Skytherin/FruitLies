@@ -89,7 +89,7 @@ public class Conversation : MonoBehaviour
         var item = ConversationFlow.Items[ConversationIndex];
         var go = GameObject.Find(item.Who == Constants.Names.MC ? "MainCharacter" :  item.Who);
         var screenSpace = Camera.main.WorldToScreenPoint(go.transform.position);
-        SpeechBubbleAnchor.transform.position = new Vector3(screenSpace.x + 230, screenSpace.y + 170, 0);
+        //SpeechBubbleAnchor.transform.position = new Vector3(screenSpace.x + 230, screenSpace.y + 170, 0);
         Who.text = item.Who;
         What.text = item.Text;
 
@@ -180,7 +180,12 @@ public class ConversationItem
     public string Who;
     public string Text;
     public List<string> Answers = new List<string>();
-    public string Backreference;
+
+    public ConversationItem AddAnswer(string answer)
+    {
+        Answers.Add(answer);
+        return this;
+    }
 
     public ConversationItem(string who, string text)
     {

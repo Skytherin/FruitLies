@@ -1,4 +1,3 @@
-using Assets.ProceduralAnimationLibrary.Tweeners;
 using Assets.Utils.ProceduralAnimationLibrary.Tweeners;
 using UnityEngine;
 
@@ -6,7 +5,9 @@ public class MainCharacter : MonoBehaviour
 {
     private readonly float speed = 15.0f;
 
-    public CallbackThing<bool> SetOverrideDestination(Vector2 targetPosition)
+    public CallbackThing<bool> SetDestination(GameObject targetPosition) => SetDestination(targetPosition.transform.position);
+
+    public CallbackThing<bool> SetDestination(Vector2 targetPosition)
     {
         StopAllCoroutines();
         var callbackThing = new CallbackThing<bool>();
