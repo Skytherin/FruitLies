@@ -18,5 +18,23 @@ namespace Assets.Utils
                 .MoveTo(go, m, duration)
                 .Start();
         }
+
+        public static void LookLeft(this GameObject self)
+        {
+            var transformRotation = self.transform.rotation;
+            if (transformRotation.eulerAngles.x >= 0)
+            {
+                self.transform.rotation *= Quaternion.AngleAxis(180, Vector3.up);
+            }
+        }
+
+        public static void LookRight(this GameObject self)
+        {
+            var transformRotation = self.transform.rotation;
+            if (transformRotation.eulerAngles.x < 0)
+            {
+                self.transform.rotation *= Quaternion.AngleAxis(180, Vector3.up);
+            }
+        }
     }
 }
