@@ -89,6 +89,7 @@
     <Compile Include="Assets\Bouncer.cs" />
     <Compile Include="Assets\JuicyLucyEntrance.cs" />
     <Compile Include="Assets\Bartender.cs" />
+    <Compile Include="Assets\InsideTheClubController.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
