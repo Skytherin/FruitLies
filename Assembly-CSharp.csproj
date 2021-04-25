@@ -90,6 +90,7 @@
     <Compile Include="Assets\JuicyLucyEntrance.cs" />
     <Compile Include="Assets\Bartender.cs" />
     <Compile Include="Assets\InsideTheClubController.cs" />
+    <Compile Include="Assets\Policeman.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

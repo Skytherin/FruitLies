@@ -10,13 +10,8 @@ public class MainCharacter : MonoBehaviour
     public CallbackThing<bool> SetDestination(Vector2 targetPosition)
     {
         StopAllCoroutines();
-        var callbackThing = new CallbackThing<bool>();
-        this.BeginSerial()
+        return this.BeginSerial()
             .MoveTo(gameObject, targetPosition, Vector2.Distance(transform.position, targetPosition) / speed)
-            .Start(() =>
-            {
-                callbackThing.Callback?.Invoke(true);
-            });
-        return callbackThing;
+            .Start();
     }
 }

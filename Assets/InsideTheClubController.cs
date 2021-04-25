@@ -12,7 +12,8 @@ public class InsideTheClubController : MonoBehaviour
 
         this.BeginSerial()
             .Wait(SceneTransition.FadeTime)
-            .Start(() => EnterTheClub());
+            .Start()
+            .Then(() => EnterTheClub());
     }
 
     private void EnterTheClub()
@@ -21,7 +22,10 @@ public class InsideTheClubController : MonoBehaviour
         {
             c.Add("Cass", "Go get my a juice, Alice. I'm gonna flirt with that guy.");
             c.Add("Alice", "...... Fine");
-        });
+        })
+            .Then(() =>
+            {
+                this.MoveToMark("Cass", "CassMark", 1.0f);
+            });
     }
-
 }

@@ -41,7 +41,8 @@ public class Door : MonoBehaviour
 
                     this.BeginSerial()
                         .MoveTo(mc, dadMark.transform.position, 1.0f)
-                        .Start(() => DadConversation());
+                        .Start()
+                        .Then(() => DadConversation());
                     break;
                 }
                 case DoorState.AllowedToLeave:
@@ -51,7 +52,8 @@ public class Door : MonoBehaviour
                     
                     this.BeginSerial()
                         .MoveTo(mc, dadSpawnPoint.transform.position, 1.0f)
-                        .Start(() => SceneTransition.Instance.TransitionTo("OutsideTheClub"));
+                        .Start()
+                        .Then(() => SceneTransition.Instance.TransitionTo("OutsideTheClub"));
                     
                     break;
                 }
