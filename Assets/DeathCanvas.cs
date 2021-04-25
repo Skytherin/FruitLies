@@ -26,7 +26,7 @@ public class DeathCanvas : MonoBehaviour
     {
         if (Global.WhoHasMouseControl != Mouser.Death) return;
 
-        SceneManager.LoadScene("InsideTheHouse");
+        SceneTransition.Instance.TransitionTo("InsideTheHouse");
     }
 
     public void Quit()
