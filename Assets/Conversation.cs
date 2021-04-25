@@ -30,10 +30,10 @@ public class Conversation : MonoBehaviour
     private bool Started = false;
     private ConversationFlow ConversationFlow = new ConversationFlow();
     private int ConversationIndex = -1;
-    private GameObject ConversationCanvas;
+    private GameObject SpeechBubbleAnchor;
     private CanvasGroup CanvasGroup;
-    private TextMeshProUGUI Who;
-    private TextMeshProUGUI What;
+    private Text Who;
+    private Text What;
     private Button Q1;
     private Button Q2;
     private Button Q3;
@@ -59,13 +59,14 @@ public class Conversation : MonoBehaviour
     void Start()
     {
         Instance = this;
-        ConversationCanvas = GameObject.Find("ConversationCanvas");
-        CanvasGroup = ConversationCanvas.GetComponent<CanvasGroup>();
-        Who = ConversationCanvas.transform.Find("Who").GetComponent<TextMeshProUGUI>();
-        What = ConversationCanvas.transform.Find("What").GetComponent<TextMeshProUGUI>();
-        Q1 = ConversationCanvas.transform.Find("Q1").GetComponent<Button>();
-        Q2 = ConversationCanvas.transform.Find("Q2").GetComponent<Button>();
-        Q3 = ConversationCanvas.transform.Find("Q3").GetComponent<Button>();
+        var canvas = GameObject.Find("ConversationCanvas");
+        SpeechBubbleAnchor = canvas.transform.Find("Anchor").gameObject;
+        CanvasGroup = canvas.GetComponent<CanvasGroup>();
+        Who = SpeechBubbleAnchor.transform.Find("Who").GetComponent<Text>();
+        What = SpeechBubbleAnchor.transform.Find("What").GetComponent<Text>();
+        Q1 = SpeechBubbleAnchor.transform.Find("Q1").GetComponent<Button>();
+        Q2 = SpeechBubbleAnchor.transform.Find("Q2").GetComponent<Button>();
+        Q3 = SpeechBubbleAnchor.transform.Find("Q3").GetComponent<Button>();
         CanvasGroup.alpha = 0.0f;
     }
 
@@ -86,6 +87,9 @@ public class Conversation : MonoBehaviour
     private void ShowCurrentIndex()
     {
         var item = ConversationFlow.Items[ConversationIndex];
+        var go = GameObject.Find(item.Who == Constants.Names.MC ? "MainCharacter" :  item.Who);
+        var screenSpace = Camera.main.WorldToScreenPoint(go.transform.position);
+        SpeechBubbleAnchor.transform.position = new Vector3(screenSpace.x + 230, screenSpace.y + 170, 0);
         Who.text = item.Who;
         What.text = item.Text;
 
@@ -95,7 +99,7 @@ public class Conversation : MonoBehaviour
             .Zip(new[]{ Q1, Q2, Q3 }, (it, button) => new {it.answer,button, it.index}))
         {
             a.button.transform.gameObject.SetActive(true);
-            a.button.GetComponentInChildren<TextMeshProUGUI>().text = a.answer;
+            a.button.GetComponentInChildren<Text>().text = a.answer;
             a.button.onClick = new Button.ButtonClickedEvent();
             a.button.onClick.AddListener(() => Answer(a.index));
         }

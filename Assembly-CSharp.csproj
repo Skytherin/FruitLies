@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweeners\ITweener.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweens\ITween.cs" />
+    <Compile Include="Assets\OutsideTheClubSceneController.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweeners\SerialTweener.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweeners\TweenerMonobehaviourExtensions.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweeners\TweenerExtensions.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Cutscenes\VerbLoader.cs" />
     <Compile Include="Assets\Conversation.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweens\IEnumeratorTween.cs" />
+    <Compile Include="Assets\Utils\Constants.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Cutscenes\CutsceneParser.cs" />
     <Compile Include="Assets\DeathCanvas.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweens\TimedTween.cs" />
@@ -84,8 +86,6 @@
     <Compile Include="Assets\Utils\GameObjectExtensions.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Cutscenes\CutsceneVerbAttribute.cs" />
     <Compile Include="Assets\SceneTransition.cs" />
-    <Compile Include="Assets\OutsideTheClubSceneController.cs" />
-    <Compile Include="Assets\Utils\Constants.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
