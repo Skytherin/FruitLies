@@ -59,12 +59,15 @@
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweeners\ITweener.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweens\ITween.cs" />
     <Compile Include="Assets\OutsideTheClubSceneController.cs" />
+    <Compile Include="Assets\Policeman.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweeners\SerialTweener.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweeners\TweenerMonobehaviourExtensions.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweeners\TweenerExtensions.cs" />
+    <Compile Include="Assets\JuicyLucyEntrance.cs" />
     <Compile Include="Assets\Utils\WhoHasMouseControl.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweens\ActionTween.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweeners\ParallelTweener.cs" />
+    <Compile Include="Assets\Bartender.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweens\ComputedTween.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\JCurve.cs" />
     <Compile Include="Assets\Mom.cs" />
@@ -78,19 +81,16 @@
     <Compile Include="Assets\DeathCanvas.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweens\TimedTween.cs" />
     <Compile Include="Assets\MainCharacter.cs" />
+    <Compile Include="Assets\Bouncer.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Tweens\ConditionalWaitTween.cs" />
     <Compile Include="Assets\Door.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Cutscenes\VerbDetails.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Cutscenes\BuiltInVerbs.cs" />
+    <Compile Include="Assets\InsideTheClubController.cs" />
     <Compile Include="Assets\Utils\EnumerableExtensions.cs" />
     <Compile Include="Assets\Utils\GameObjectExtensions.cs" />
     <Compile Include="Assets\Utils\ProceduralAnimationLibrary\Cutscenes\CutsceneVerbAttribute.cs" />
     <Compile Include="Assets\SceneTransition.cs" />
-    <Compile Include="Assets\Bouncer.cs" />
-    <Compile Include="Assets\JuicyLucyEntrance.cs" />
-    <Compile Include="Assets\Bartender.cs" />
-    <Compile Include="Assets\InsideTheClubController.cs" />
-    <Compile Include="Assets\Policeman.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

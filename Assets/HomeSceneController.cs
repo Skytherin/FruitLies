@@ -8,7 +8,7 @@ public class HomeSceneController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Global.WhoHasMouseControl = Mouser.General;
+        Global.WhoHasMouseControl = Mouser.Cutscene;
 
         this.BeginSerial()
             .Wait(0.01f)

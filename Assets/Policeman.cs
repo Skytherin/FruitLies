@@ -27,6 +27,17 @@ public class Policeman : MonoBehaviour
         })
         .Then(() =>
         {
+            var mc = GameObject.Find("MainCharacter");
+            var cass = GameObject.Find("Cass");
+            mc.LookLeft();
+            cass.LookLeft();
+
+            var audio = GameObject.Find("SceneController").GetComponent<AudioSource>();
+
+            this.BeginSerial()
+                .Then(1.0f, ratio => audio.volume = 1.0f - ratio)
+                .Start();
+
             Global.WhoHasMouseControl = Mouser.Cutscene;
             var bt = GameObject.Find("Bartender");
             var mark = GameObject.Find("OffscreenRightMark");
@@ -37,7 +48,7 @@ public class Policeman : MonoBehaviour
                 {
                     Conversation.Instance.StartConversation(c =>
                     {
-                        c.Add("Policeman", "Redhaired girl, you look like an honest person. Let me ask you some questions.");
+                        c.Add("Policeman", "Red-haired girl, you look like an honest person. Let me ask you some questions.");
                     })
                     .Then(() =>
                     {
@@ -90,8 +101,8 @@ public class Policeman : MonoBehaviour
                 Conversation.Instance.StartConversation(c =>
                 {
                     c.Add("Policeman", "... That's not right. Off to the hoosegow with you!");
-                    DeathCanvas.Instance.Show();
-                });
+                })  
+                .Then(() => DeathCanvas.Instance.Show());
             }
             else
             {

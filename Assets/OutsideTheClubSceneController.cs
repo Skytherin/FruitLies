@@ -8,7 +8,7 @@ public class OutsideTheClubSceneController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Global.WhoHasMouseControl = Mouser.General;
+        Global.WhoHasMouseControl = Mouser.Cutscene;
 
         var mc = GameObject.Find("MainCharacter");
         var cass = GameObject.Find("Cass");
@@ -19,6 +19,9 @@ public class OutsideTheClubSceneController : MonoBehaviour
 
         cass.TeleportTo(cassMarkStart);
         mc.TeleportTo(mcMarkStart);
+
+        cass.LookLeft();
+        mc.LookLeft();
 
         this.BeginSerial()
             .Wait(SceneTransition.FadeTime)
