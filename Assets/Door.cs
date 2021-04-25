@@ -70,7 +70,7 @@ public class Door : MonoBehaviour
         {
             c.Add("Dad", "Where do you think you are going, little lady?");
 
-            var q = c.Add(Constants.Names.MC, "");
+            var q = c.Add(Constants.Names.MC, "", BoxType.QuestionLeft);
             q.Answers.AddRange(possibleAnswers);
         })
         .Then(record =>

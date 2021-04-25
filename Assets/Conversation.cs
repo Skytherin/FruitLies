@@ -23,16 +23,25 @@ public class CallbackThing<T>
     }
 }
 
+[Serializable]
+public struct People
+{
+    public string Name;
+    public GameObject Left;
+    public GameObject Right;
+    public GameObject LeftQuestion;
+    public GameObject RightQuestion;
+}
+
 public class Conversation : MonoBehaviour
 {
     public static Conversation Instance;
 
+    public List<People> People;
+    private GameObject _currentBox;
+
     private ConversationFlow ConversationFlow = new ConversationFlow();
     private int ConversationIndex = -1;
-    private GameObject SpeechBubbleAnchor;
-    private CanvasGroup CanvasGroup;
-    private Text Who;
-    private Text What;
     private Button Q1;
     private Button Q2;
     private Button Q3;
@@ -49,24 +58,11 @@ public class Conversation : MonoBehaviour
     void Start()
     {
         Instance = this;
-        var canvas = GameObject.Find("ConversationCanvas");
-        SpeechBubbleAnchor = canvas.transform.Find("Anchor").gameObject;
-        CanvasGroup = canvas.GetComponent<CanvasGroup>();
-        Who = SpeechBubbleAnchor.transform.Find("Who").GetComponent<Text>();
-        What = SpeechBubbleAnchor.transform.Find("What").GetComponent<Text>();
-        Q1 = SpeechBubbleAnchor.transform.Find("Q1").GetComponent<Button>();
-        Q2 = SpeechBubbleAnchor.transform.Find("Q2").GetComponent<Button>();
-        Q3 = SpeechBubbleAnchor.transform.Find("Q3").GetComponent<Button>();
-        CanvasGroup.alpha = 0.0f;
     }
 
     private CallbackThing<List<int>> StartConversationInternal()
     {
         Global.WhoHasMouseControl = Mouser.Cutscene;
-        Q1.transform.gameObject.SetActive(false);
-        Q2.transform.gameObject.SetActive(false);
-        Q3.transform.gameObject.SetActive(false);
-        CanvasGroup.alpha = 1.0f;
         ConversationIndex = 0;
         ShowCurrentIndex();
         Callback = new CallbackThing<List<int>>();
@@ -76,30 +72,49 @@ public class Conversation : MonoBehaviour
     private void ShowCurrentIndex()
     {
         var item = ConversationFlow.Items[ConversationIndex];
-        //var go = GameObject.Find(item.Who == Constants.Names.MC ? "MainCharacter" :  item.Who);
-        //var screenSpace = Camera.current.WorldToScreenPoint(go.transform.position);
-        //SpeechBubbleAnchor.transform.position = new Vector3(screenSpace.x + 230, screenSpace.y + 170, 0);
-        Who.text = item.Who;
-        What.text = item.Text;
-
-        foreach (var a in item.Answers
-            .Select((answer, index) => new {answer, index})
-            .Shuffle()
-            .Zip(new[]{ Q1, Q2, Q3 }, (it, button) => new {it.answer,button, it.index}))
+        var person = People.First(x => x.Name == item.Who);
+        _currentBox = item.BoxType switch
         {
-            a.button.transform.gameObject.SetActive(true);
-            a.button.GetComponentInChildren<Text>().text = a.answer;
-            a.button.onClick = new Button.ButtonClickedEvent();
-            a.button.onClick.AddListener(() => Answer(a.index));
+            BoxType.Left => person.Left,
+            BoxType.Right => person.Right,
+            BoxType.QuestionLeft => person.LeftQuestion,
+            BoxType.QuestionRight => person.RightQuestion
+        };
+        _currentBox.SetActive(true);
+
+        if (item.BoxType == BoxType.Left || item.BoxType == BoxType.Right)
+        {
+            _currentBox.transform.Find("text").Find("Who").GetComponent<Text>().text = item.Who;
+            _currentBox.transform.Find("text").Find("What").GetComponent<Text>().text = item.Text;
         }
+        else
+        {
+            Q1 = _currentBox.transform.Find("answers").Find("Q1").GetComponent<Button>();
+            Q2 = _currentBox.transform.Find("answers").Find("Q2").GetComponent<Button>();
+            Q3 = _currentBox.transform.Find("answers").Find("Q3").GetComponent<Button>();
+
+            foreach (var a in item.Answers
+                .Select((answer, index) => new {answer, index})
+                .Shuffle()
+                .Zip(new[]{ Q1, Q2, Q3 }, (it, button) => new {it.answer,button, it.index}))
+            {
+                a.button.GetComponentInChildren<Text>().text = a.answer;
+                a.button.onClick = new Button.ButtonClickedEvent();
+                a.button.onClick.AddListener(() => Answer(a.index));
+            }
+
+            _hasAnswered = false;
+        }
+
     }
 
+    private bool _hasAnswered = true;
     private void Answer(int which)
     {
+        _hasAnswered = true;
         ConversationFlow.Answers.Add(which);
         foreach (var button in new[] {Q1, Q2, Q3})
         {
-            button.transform.gameObject.SetActive(false);
             button.onClick = new Button.ButtonClickedEvent();
         }
         AdvanceConversation();
@@ -109,9 +124,7 @@ public class Conversation : MonoBehaviour
     {
         if (ConversationIndex >= 0 && Input.GetMouseButtonDown(0))
         {
-            if (Q1.transform.gameObject.activeSelf ||
-                Q1.transform.gameObject.activeSelf ||
-                Q1.transform.gameObject.activeSelf)
+            if (!_hasAnswered)
             {
                 return;
             }
@@ -122,6 +135,8 @@ public class Conversation : MonoBehaviour
 
     private void AdvanceConversation()
     {
+        _currentBox.SetActive(false);
+
         ConversationIndex += 1;
         if (ConversationIndex >= ConversationFlow.Items.Count)
         {
@@ -140,10 +155,6 @@ public class Conversation : MonoBehaviour
     private IEnumerator WaitThenExit()
     {
         yield return new WaitForFixedUpdate();
-        Q1.transform.gameObject.SetActive(true);
-        Q2.transform.gameObject.SetActive(true);
-        Q3.transform.gameObject.SetActive(true);
-        CanvasGroup.alpha = 0.0f;
         ConversationIndex = -1;
         Global.WhoHasMouseControl = Mouser.General;
         Callback?.Callback?.Invoke(ConversationFlow.Answers);
@@ -155,18 +166,27 @@ public class ConversationFlow
     public readonly List<ConversationItem> Items = new List<ConversationItem>();
     public readonly List<int> Answers = new List<int>();
 
-    public ConversationItem Add(string who, string what)
+    public ConversationItem Add(string who, string what, BoxType boxType = BoxType.Left)
     {
-        var result = new ConversationItem(who, what);
+        var result = new ConversationItem(who, what, boxType);
         Items.Add(result);
         return result;
     }
+}
+
+public enum BoxType
+{
+    Left,
+    Right,
+    QuestionLeft,
+    QuestionRight,
 }
 
 public class ConversationItem
 {
     public string Who;
     public string Text;
+    public BoxType BoxType;
     public List<string> Answers = new List<string>();
 
     public ConversationItem AddAnswer(string answer)
@@ -175,9 +195,10 @@ public class ConversationItem
         return this;
     }
 
-    public ConversationItem(string who, string text)
+    public ConversationItem(string who, string text, BoxType boxType)
     {
         Who = who;
         Text = text;
+        BoxType = boxType;
     }
 }

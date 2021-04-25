@@ -23,8 +23,8 @@ public class InsideTheClubController : MonoBehaviour
     {
         Conversation.Instance.StartConversation(c =>
         {
-            c.Add("Cass", "Go get me a juice, Alice. I'm gonna flirt with that guy.");
-            c.Add("Alice", "...... Fine");
+            c.Add("Cass", "Go get me a juice, Alice. I'm gonna flirt with that guy.", BoxType.Right);
+            c.Add("Alice", "...... Fine", BoxType.Right);
         })
         .Then(() =>
         {

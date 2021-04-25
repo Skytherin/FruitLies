@@ -72,14 +72,15 @@ public class Bouncer : MonoBehaviour
     {
         Conversation.Instance.StartConversation(c =>
         {
-            c.Add("Bouncer", "Hey, you're too young to drink juice.");
-            var options = c.Add(Constants.Names.MC, "I come here all the time, my friend and me are...");
+            c.Add("Bouncer", "Hey, you're too young to drink juice.", BoxType.Right);
+            c.Add(Constants.Names.MC, "I come here all the time, my friend and me are...", BoxType.Right);
+            var options = c.Add(Constants.Names.MC, "", BoxType.QuestionRight);
 
             options.Answers.AddRange(AllAgeOptions);
 
-            c.Add("Bouncer", "Guess I'm getting old; you kids all looks so young these days.");
-            c.Add("Bouncer", "If you come here all the time, who's the house band?");
-            c.Add("Alice", "").Answers.AddRange(HouseBands);
+            c.Add("Bouncer", "Guess I'm getting old; you kids all looks so young these days.", BoxType.Right);
+            c.Add("Bouncer", "If you come here all the time, who's the house band?", BoxType.Right);
+            c.Add("Alice", "", BoxType.QuestionRight).Answers.AddRange(HouseBands);
         })
         .Then(c =>
         {
@@ -94,7 +95,7 @@ public class Bouncer : MonoBehaviour
             {
                 Conversation.Instance.StartConversation(c =>
                 {
-                    c.Add("Bouncer", "Bzzzt, wrong. Get outta here, kid.");
+                    c.Add("Bouncer", "Bzzzt, wrong. Get outta here, kid.", BoxType.Right);
                 })
                 .Then(() =>
                 {
@@ -105,10 +106,10 @@ public class Bouncer : MonoBehaviour
             {
                 Conversation.Instance.StartConversation(c =>
                 {
-                    c.Add("Bouncer", "Wow, you really are a regular. (Wonder why I've never seen you?)");
-                    c.Add("Bouncer", "One more question: what's your favorite juice?");
-                    c.Add("Alice", "").Answers.AddRange(JuiceDrinks);
-                    c.Add("Bouncer", "You're legit, kid. Go on in.");
+                    c.Add("Bouncer", "Wow, you really are a regular. (Wonder why I've never seen you?)", BoxType.Right);
+                    c.Add("Bouncer", "One more question: what's your favorite juice?", BoxType.Right);
+                    c.Add("Alice", "", BoxType.QuestionRight).Answers.AddRange(JuiceDrinks);
+                    c.Add("Bouncer", "You're legit, kid. Go on in.", BoxType.Right);
                 }).Then(c =>
                 {
                     JuiceDrinkOfChoice = c.Last();

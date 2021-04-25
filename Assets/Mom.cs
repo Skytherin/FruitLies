@@ -35,7 +35,7 @@ public class Mom : MonoBehaviour
                 c.Add(Constants.Names.MC, "Hey mom, can I go out tonight?");
                 c.Add("Mom", "Where are you going, my little snack carrot?");
 
-                c.Add(Constants.Names.MC, "").Answers.AddRange(PossibleAnswers);
+                c.Add(Constants.Names.MC, "", BoxType.QuestionRight).Answers.AddRange(PossibleAnswers);
 
                 c.Add("Mom", "That's nice dear, have fun.");
             }).Then(c => AnswerToMom = c.Single());

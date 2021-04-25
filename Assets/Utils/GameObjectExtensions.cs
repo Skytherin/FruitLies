@@ -22,18 +22,22 @@ namespace Assets.Utils
         public static void LookLeft(this GameObject self)
         {
             var transformRotation = self.transform.rotation;
+            var canvas = self.transform.Find("Canvas");
             if (transformRotation.eulerAngles.x >= 0)
             {
                 self.transform.rotation *= Quaternion.AngleAxis(180, Vector3.up);
+                canvas.transform.rotation *= Quaternion.AngleAxis(180, Vector3.up);
             }
         }
 
         public static void LookRight(this GameObject self)
         {
             var transformRotation = self.transform.rotation;
+            var canvas = self.transform.Find("Canvas");
             if (transformRotation.eulerAngles.x < 0)
             {
                 self.transform.rotation *= Quaternion.AngleAxis(180, Vector3.up);
+                canvas.transform.rotation *= Quaternion.AngleAxis(180, Vector3.up);
             }
         }
     }

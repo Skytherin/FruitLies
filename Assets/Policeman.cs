@@ -22,8 +22,8 @@ public class Policeman : MonoBehaviour
         Global.WhoHasMouseControl = Mouser.Cutscene;
         Conversation.Instance.StartConversation(c =>
         {
-            c.Add("Policeman", "Everyone, this is an illegal fruit-related gathering! Stay where you are!");
-            c.Add("Bartender", "The fuzz! Cheese it!");
+            c.Add("Policeman", "Everyone, this is an illegal fruit-related gathering! Stay where you are!", BoxType.Right);
+            c.Add("Bartender", "The fuzz! Cheese it!", BoxType.Left);
         })
         .Then(() =>
         {
@@ -48,7 +48,7 @@ public class Policeman : MonoBehaviour
                 {
                     Conversation.Instance.StartConversation(c =>
                     {
-                        c.Add("Policeman", "Red-haired girl, you look like an honest person. Let me ask you some questions.");
+                        c.Add("Policeman", "Red-haired girl, you look like an honest person. Let me ask you some questions.", BoxType.Right);
                     })
                     .Then(() =>
                     {
@@ -77,8 +77,8 @@ public class Policeman : MonoBehaviour
                     Conversation.Instance.StartConversation(c =>
                     {
                         c.Add("Policeman",
-                            "Well, you seem like an honest girl. Go on, you scamp. The rest of you, it's the hoosegow with you!");
-                        c.Add("Cass", "Not the hoosegow! I'm too pretty.");
+                            "Well, you seem like an honest girl. Go on, you scamp. The rest of you, it's the hoosegow with you!", BoxType.Right);
+                        c.Add("Cass", "Not the hoosegow! I'm too pretty.", BoxType.Right);
                     })
                     .Then(() => SceneTransition.Instance.TransitionTo("Credits"));
                 });
@@ -91,8 +91,8 @@ public class Policeman : MonoBehaviour
         var cb = new CallbackThing<bool>();
         Conversation.Instance.StartConversation(c =>
         {
-            c.Add("Policeman", text);
-            c.Add("Alice", "").Answers.AddRange(possibleAnswers);
+            c.Add("Policeman", text, BoxType.Right);
+            c.Add("Alice", "", BoxType.QuestionRight).Answers.AddRange(possibleAnswers);
         })
         .Then(c =>
         {
@@ -100,7 +100,7 @@ public class Policeman : MonoBehaviour
             {
                 Conversation.Instance.StartConversation(c =>
                 {
-                    c.Add("Policeman", "... That's not right. Off to the hoosegow with you!");
+                    c.Add("Policeman", "... That's not right. Off to the hoosegow with you!", BoxType.Right);
                 })  
                 .Then(() => DeathCanvas.Instance.Show());
             }
