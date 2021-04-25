@@ -12,7 +12,8 @@ public class HomeSceneController : MonoBehaviour
 
         this.BeginSerial()
             .Wait(0.01f)
-            .Start(() => StartFirstConversation());
+            .Start()
+            .Then(() => StartFirstConversation());
 
         foreach (var item in new[]
         {

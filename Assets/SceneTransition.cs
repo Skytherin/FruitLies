@@ -22,6 +22,18 @@ public class SceneTransition : MonoBehaviour
             .Start();
     }
 
+    public CallbackThing<bool> FadeOutAndIn()
+    {
+        gameObject.SetActive(true);
+        var canvasGroup = GetComponent<CanvasGroup>();
+        return this.BeginSerial()
+            .Then(FadeTime, ratio => canvasGroup.alpha = ratio)
+            .Then(FadeTime, ratio => canvasGroup.alpha = 1.0f - ratio)
+            .Then(() => gameObject.SetActive(false))
+            .Start();
+    }
+
+
     public void TransitionTo(string nextScene)
     {
         var canvasGroup = GetComponent<CanvasGroup>();

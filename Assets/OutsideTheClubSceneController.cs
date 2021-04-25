@@ -22,7 +22,8 @@ public class OutsideTheClubSceneController : MonoBehaviour
 
         this.BeginSerial()
             .Wait(SceneTransition.FadeTime)
-            .Start(() => this.BeginParallel()
+            .Start()
+            .Then(() => this.BeginParallel()
                 .MoveTo(cass, cassMarkEnd, 1.0f)
                 .MoveTo(mc, mcMarkEnd, 1.0f)
                 .Then(() => BeginConversationWithCass())

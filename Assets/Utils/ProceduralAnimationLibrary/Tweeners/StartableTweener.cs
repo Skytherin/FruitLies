@@ -19,10 +19,12 @@ namespace Assets.Utils.ProceduralAnimationLibrary.Tweeners
             GameObject = gameObject;
         }
 
-        public void Start(Action? onComplete = null)
+        public CallbackThing<bool> Start()
         {
+            var cb = new CallbackThing<bool>();
             Assert.IsNull(Coroutine, "Cannot Start tweener while it is active");
-            Coroutine = GameObject.StartCoroutine(Begin(onComplete));
+            Coroutine = GameObject.StartCoroutine(Begin(() => cb.Callback(true)));
+            return cb;
         }
 
         public void AppendInternal(ITween tween)

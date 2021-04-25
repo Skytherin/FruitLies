@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class CallbackThing<T>
 {
-    public Action<T> Callback;
+    public Action<T> Callback = _ => { };
 
     public void Then(Action<T> callback)
     {
@@ -27,7 +27,6 @@ public class Conversation : MonoBehaviour
 {
     public static Conversation Instance;
 
-    private bool Started = false;
     private ConversationFlow ConversationFlow = new ConversationFlow();
     private int ConversationIndex = -1;
     private GameObject SpeechBubbleAnchor;
@@ -41,7 +40,6 @@ public class Conversation : MonoBehaviour
 
     public CallbackThing<List<int>> StartConversation(Action<ConversationFlow> script)
     {
-        Assert.IsFalse(Started, "Attempted to start two conversations in a row!");
         ConversationFlow = new ConversationFlow();
         script(ConversationFlow);
 
@@ -65,7 +63,6 @@ public class Conversation : MonoBehaviour
     private CallbackThing<List<int>> StartConversationInternal()
     {
         Global.WhoHasMouseControl = Mouser.Cutscene;
-        Started = true;
         Q1.transform.gameObject.SetActive(false);
         Q2.transform.gameObject.SetActive(false);
         Q3.transform.gameObject.SetActive(false);
@@ -148,7 +145,6 @@ public class Conversation : MonoBehaviour
         Q3.transform.gameObject.SetActive(true);
         CanvasGroup.alpha = 0.0f;
         ConversationIndex = -1;
-        Started = false;
         Global.WhoHasMouseControl = Mouser.General;
         Callback?.Callback?.Invoke(ConversationFlow.Answers);
     }

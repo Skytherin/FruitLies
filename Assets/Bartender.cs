@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Utils;
 using UnityEngine;
@@ -14,6 +15,15 @@ public class Bartender : MonoBehaviour
         mc.SetDestination(mark)
             .Then(() => BartenderConversation());
     }
+
+    public static List<string> MajorOptions = new List<string>
+    {
+        "Rocking out",
+        "Game design",
+        "Napping"
+    };
+
+    public static int MajorLie;
 
     private void BartenderConversation()
     {
@@ -42,10 +52,12 @@ public class Bartender : MonoBehaviour
                 {
                     c.Add("Bartender", "Here you go.");
                     c.Add("Bartender", "Hey, you go to school around here, don't you? What's your major?");
-                    c.Add("Alice", "My major is...")
-                        .AddAnswer("Rocking out")
-                        .AddAnswer("Game design")
-                        .AddAnswer("Napping");
+                    c.Add("Alice", "My major is...").Answers.AddRange(MajorOptions);
+                })
+                .Then(c =>
+                {
+                    MajorLie = c.Single();
+                    Policeman.Instance.PoliceRaid();
                 });
             }
         });

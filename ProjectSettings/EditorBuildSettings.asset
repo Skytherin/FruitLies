@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/InsideTheClub.unity
     guid: 176ea8fe787b5ae4b81dac166e35699c
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 1f0037dbca46ab64db6e60af721e8ce8
   m_configObjects: {}
