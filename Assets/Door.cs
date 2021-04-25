@@ -25,7 +25,7 @@ public class Door : MonoBehaviour
             switch (DoorState)
             {
                 case DoorState.HasNotTalkedToMom:
-                    Conversation.Instance.StartConversation("", c => { c.Add(Constants.Names.MC, "I can't leave without telling mom."); });
+                    Conversation.Instance.StartConversation(c => { c.Add(Constants.Names.MC, "I can't leave without telling mom."); });
                     break;
                 case DoorState.HasNotTalkedToDad:
                 {
@@ -61,12 +61,10 @@ public class Door : MonoBehaviour
 
     private void DadConversation()
     {
-        var momsConversation = Conversation.Instance.RecordOfConversation["Mom"];
-        var questionIndex = momsConversation.Answers.Keys.Single();
-        var possibleAnswers = momsConversation.Items[questionIndex].Answers;
-        var alicesAnswer = momsConversation.Answers[questionIndex];
+        var possibleAnswers = Mom.PossibleAnswers;
+        var alicesAnswer = Mom.AnswerToMom;
 
-        Conversation.Instance.StartConversation("Dad", c =>
+        Conversation.Instance.StartConversation(c =>
         {
             c.Add("Dad", "Where do you think you are going, little lady?");
 
@@ -75,9 +73,9 @@ public class Door : MonoBehaviour
         })
         .Then(record =>
         {
-            if (record.Answers.Single().Value == alicesAnswer)
+            if (record.Single() == alicesAnswer)
             {
-                Conversation.Instance.StartConversation("", c =>
+                Conversation.Instance.StartConversation(c =>
                 {
                     c.Add("Dad", "You're not leaving this house.");
                     c.Add("Mom", "But hubby, we haven't had a night alone in weeks.");
@@ -100,7 +98,7 @@ public class Door : MonoBehaviour
             }
             else
             {
-                Conversation.Instance.StartConversation("", c =>
+                Conversation.Instance.StartConversation(c =>
                 {
                     c.Add("Mom", "That's not what you told me.");
                     c.Add("Dad", "Go to your room!!!");

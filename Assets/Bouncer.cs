@@ -9,6 +9,22 @@ public class Bouncer : MonoBehaviour
 {
     private GameObject JuicyLucyEntrance;
 
+    public static readonly List<string> JuiceDrinks = new List<string>
+    {
+        "Citrus Squeeze",
+        "Melon Mountain",
+        "Brash Banana"
+    };
+
+    public static readonly List<string> HouseBands = new List<string>
+    {
+        "Kate and the Fresh Veggies",
+        "The Apple Sauce Jam Band",
+        "The Orange Peels"
+    };
+
+    public static int JuiceDrinkOfChoice;
+
     void Start()
     {
         JuicyLucyEntrance = GameObject.Find("JuicyLucyEntrance");
@@ -27,7 +43,7 @@ public class Bouncer : MonoBehaviour
 
     private void BouncerConversation()
     {
-        Conversation.Instance.StartConversation("Bouncer", c =>
+        Conversation.Instance.StartConversation(c =>
         {
             c.Add("Bouncer", "Hey, you're too young to drink juice.");
             var options = c.Add(Constants.Names.MC, "I come here all the time, my friend and me are...");
@@ -56,16 +72,13 @@ public class Bouncer : MonoBehaviour
 
             c.Add("Bouncer", "Guess I'm getting old; you kids all looks so young these days.");
             c.Add("Bouncer", "If you come here all the time, who's the house band?");
-            c.Add("Alice", "")
-                .AddAnswer("Kale and the Fresh Veggies")
-                .AddAnswer("The Apple Sauce Jam Band")
-                .AddAnswer("The Orange Peels");
+            c.Add("Alice", "").Answers.AddRange(HouseBands);
         })
         .Then(c =>
         {
-            if (c.Answers.Last().Value != 2)
+            if (c.Last() != 2)
             {
-                Conversation.Instance.StartConversation("", c =>
+                Conversation.Instance.StartConversation(c =>
                 {
                     c.Add("Bouncer", "Bzzzt, wrong. Get outta here, kid.");
                 })
@@ -76,7 +89,7 @@ public class Bouncer : MonoBehaviour
             }
             else
             {
-                Conversation.Instance.StartConversation("", c =>
+                Conversation.Instance.StartConversation(c =>
                 {
                     c.Add("Bouncer", "Wow, you really are a regular. (Wonder why I've never seen you?)");
                     c.Add("Bouncer", "One more question: what's your favorite juice?");
@@ -85,8 +98,9 @@ public class Bouncer : MonoBehaviour
                         .AddAnswer("Citrus Breeze")
                         .AddAnswer("Cool Melon Mountain");
                     c.Add("Bouncer", "You're legit, kid. Go on in.");
-                }).Then(() =>
+                }).Then(c =>
                 {
+                    JuiceDrinkOfChoice = c.Last();
                     var mark = GameObject.Find("BouncerMark2");
                     this.BeginSerial()
                         .MoveTo(gameObject, mark, 0.5f)

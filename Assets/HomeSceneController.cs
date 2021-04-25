@@ -27,7 +27,7 @@ public class HomeSceneController : MonoBehaviour
 
     private void StartFirstConversation()
     {
-        Conversation.Instance.StartConversation("", c =>
+        Conversation.Instance.StartConversation(c =>
         {
             c.Add(Constants.Names.BF, "Hey, The Orange Peels are playing tonight at Juicy Lucy's. Wanna go?");
             c.Add(Constants.Names.MC, "Yeah, they're totally boppers!... But my dad will never let them go.");

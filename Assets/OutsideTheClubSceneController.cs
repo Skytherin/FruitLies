@@ -31,7 +31,7 @@ public class OutsideTheClubSceneController : MonoBehaviour
 
     private void BeginConversationWithCass()
     {
-        Conversation.Instance.StartConversation("", c =>
+        Conversation.Instance.StartConversation(c =>
         {
             c.Add(Constants.Names.BF, "Oh no, that bouncer won't let us in!");
             c.Add(Constants.Names.MC, "No worries, I'll handle him.");

@@ -37,21 +37,13 @@ public class Conversation : MonoBehaviour
     private Button Q1;
     private Button Q2;
     private Button Q3;
-    private CallbackThing<ConversationFlow> Callback;
+    private CallbackThing<List<int>> Callback;
 
-    public readonly Dictionary<string, ConversationFlow> RecordOfConversation =
-        new Dictionary<string, ConversationFlow>();
-
-    public CallbackThing<ConversationFlow> StartConversation(string nameOfConversation, Action<ConversationFlow> script)
+    public CallbackThing<List<int>> StartConversation(Action<ConversationFlow> script)
     {
-        Assert.IsFalse(RecordOfConversation.ContainsKey(nameOfConversation), "Same conversation twice!");
         Assert.IsFalse(Started, "Attempted to start two conversations in a row!");
         ConversationFlow = new ConversationFlow();
         script(ConversationFlow);
-        if (!string.IsNullOrWhiteSpace(nameOfConversation))
-        {
-            RecordOfConversation[nameOfConversation] = ConversationFlow;
-        }
 
         return StartConversationInternal();
     }
@@ -70,7 +62,7 @@ public class Conversation : MonoBehaviour
         CanvasGroup.alpha = 0.0f;
     }
 
-    private CallbackThing<ConversationFlow> StartConversationInternal()
+    private CallbackThing<List<int>> StartConversationInternal()
     {
         Global.WhoHasMouseControl = Mouser.Cutscene;
         Started = true;
@@ -80,7 +72,7 @@ public class Conversation : MonoBehaviour
         CanvasGroup.alpha = 1.0f;
         ConversationIndex = 0;
         ShowCurrentIndex();
-        Callback = new CallbackThing<ConversationFlow>();
+        Callback = new CallbackThing<List<int>>();
         return Callback;
     }
 
@@ -107,7 +99,7 @@ public class Conversation : MonoBehaviour
 
     private void Answer(int which)
     {
-        ConversationFlow.Answers[ConversationIndex] = which;
+        ConversationFlow.Answers.Add(which);
         foreach (var button in new[] {Q1, Q2, Q3})
         {
             button.transform.gameObject.SetActive(false);
@@ -158,14 +150,14 @@ public class Conversation : MonoBehaviour
         ConversationIndex = -1;
         Started = false;
         Global.WhoHasMouseControl = Mouser.General;
-        Callback?.Callback?.Invoke(ConversationFlow);
+        Callback?.Callback?.Invoke(ConversationFlow.Answers);
     }
 }
 
 public class ConversationFlow
 {
     public readonly List<ConversationItem> Items = new List<ConversationItem>();
-    public readonly Dictionary<int, int> Answers = new Dictionary<int, int>();
+    public readonly List<int> Answers = new List<int>();
 
     public ConversationItem Add(string who, string what)
     {
