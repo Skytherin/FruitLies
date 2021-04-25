@@ -90,8 +90,8 @@ public class Policeman : MonoBehaviour
                 Conversation.Instance.StartConversation(c =>
                 {
                     c.Add("Policeman", "... That's not right. Off to the hoosegow with you!");
-                    DeathCanvas.Instance.Show();
-                });
+                })  
+                .Then(() => DeathCanvas.Instance.Show());
             }
             else
             {

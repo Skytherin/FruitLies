@@ -20,7 +20,7 @@ public class InsideTheClubController : MonoBehaviour
     {
         Conversation.Instance.StartConversation(c =>
         {
-            c.Add("Cass", "Go get my a juice, Alice. I'm gonna flirt with that guy.");
+            c.Add("Cass", "Go get me a juice, Alice. I'm gonna flirt with that guy.");
             c.Add("Alice", "...... Fine");
         })
             .Then(() =>
