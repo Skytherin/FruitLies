@@ -17,7 +17,6 @@ public class Bartender : MonoBehaviour
 
     private void BartenderConversation()
     {
-
         Conversation.Instance.StartConversation(c =>
         {
             c.Add("Bartender", "What will you have?");
@@ -34,9 +33,8 @@ public class Bartender : MonoBehaviour
                     c.Add("Bouncer", "That's not what she told me!");
                     c.Add("Alice", "Hey, can't a girl try something new for a change?");
                     c.Add("Bartender", "In all my years of bartending, no one has ever changed their drink of choice.");
-
-                    DeathCanvas.Instance.Show();
-                });
+                })
+                .Then(() => DeathCanvas.Instance.Show());
             }
             else
             {
@@ -51,6 +49,5 @@ public class Bartender : MonoBehaviour
                 });
             }
         });
-
     }
 }
