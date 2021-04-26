@@ -24,6 +24,8 @@ public class HomeSceneController : MonoBehaviour
         {
             GameObject.Find(item.c).TeleportTo(GameObject.Find(item.m));
         }
+
+        Debug.Log(Camera.main.pixelRect);
     }
 
     private void StartFirstConversation()
